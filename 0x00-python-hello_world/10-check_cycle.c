@@ -1,36 +1,30 @@
- * 1 if there is a cycle
+#include "lists.h"
+
+/**
+ * check_cycle - check loop in a list
+ * @list: beginning of a LL
+ *
+ * Return: 1 if success, and 0 if failed
  */
+
 int check_cycle(listint_t *list)
 {
-	listint_t *p2;
-	listint_t *prev;
+	listint_t *slow, *fast;
 
-	p2 = list;
-	prev = list;
-	while (list && p2 && p2->next)
+	if (!list)
 	{
-		list = list->next;
-		p2 = p2->next->next;
-
-		if (list == p2)
+		return (0);
+	}
+	slow = list;
+	fast = list->next;
+	while (fast && fast && fast->next)
+	{
+		if (slow == fast)
 		{
-			list = prev;
-			prev =  p2;
-			while (1)
-			{
-				p2 = prev;
-				while (p2->next != list && p2->next != prev)
-				{
-					p2 = p2->next;
-				}
-				if (p2->next == list)
-					break;
-
-				list = list->next;
-			}
 			return (1);
 		}
+		slow = slow->next;
+		fast = fast->next->next;
 	}
-
 	return (0);
 }
